@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es" data-lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Módulo 00 Orientación</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE everyday learning: calm, clear, hands-on; channel brand leads (dark night + cyan from the course videos)
+   IDEA a training case file: Faro's dossier, evidence on the desk, worksheets with hints and answers behind a flap
+   PICTURE the course shield emblem whose outer ring fills as the learner completes activities
+   COLOUR deep night ground, cyan accent, green for "checked", amber only for warnings
+   TYPE Inter Tight for titles + Inter for text, JetBrains Mono only inside mock screens and timestamps
+   LAYOUT laptop: title + progress left, emblem right, then full-width bands; phone: title, emblem, nav, bands stacked */
+/* File: index.html - Module 00 interactive learning page (ES/EN). All learner content lives in the DATA object below. */
+:root{color-scheme:light dark;
+--bg:light-dark(#f3f6fa,#060a14);--bg2:light-dark(#e7edf5,#0a1222);--panel:light-dark(#ffffff,#0e1729);--line:light-dark(#d3dce8,#1f2c44);
+--ink:light-dark(#0b1220,#e8eef6);--mut:light-dark(#4a5a70,#93a3b8);--cy:light-dark(#0e7490,#22d3ee);--cyb:light-dark(#cff3fa,#0b3141);
+--gr:light-dark(#047857,#34d399);--grb:light-dark(#d5f5e8,#0b3127);--am:light-dark(#92400e,#fbbf24);--amb:light-dark(#fdf0d2,#33270b)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:"Inter Tight",Inter,sans-serif;line-height:1.08;letter-spacing:-.02em;margin:0}
+h1{font-size:clamp(34px,5vw,52px);text-wrap:balance}
+h2{font-size:clamp(26px,3.2vw,36px);margin-bottom:8px}
+h3{font-size:20px}
+p{margin:8px 0}
+.band{padding-block:clamp(28px,4vw,56px);padding-inline:max(5vw,16px)}
+.wrap{max-width:1240px;margin:auto}
+.alt{background:var(--bg2)}
+.lead{color:var(--mut);max-width:68ch}
+.top{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:32px;align-items:center}
+.brand{display:flex;gap:10px;align-items:center;font-weight:700;color:var(--mut);margin-bottom:18px}
+.brand i{width:18px;height:18px;border:3px solid var(--cy);border-radius:5px;display:inline-block}
+.meter{margin-top:22px;max-width:520px}
+.meter .bar{height:10px;border-radius:6px;background:var(--line);overflow:hidden}
+.meter .bar b{display:block;height:100%;background:linear-gradient(90deg,var(--cy),var(--gr));transition:width .5s}
+.meter ul{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:4px;font-size:15px}
+.meter li::before{content:"○ ";color:var(--mut)}
+.meter li.ok::before{content:"● ";color:var(--gr)}
+.lang{display:flex;gap:6px;margin-top:18px}
+button,.btn{font:600 15px Inter,sans-serif;min-height:44px;padding:0 16px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer}
+button:hover{border-color:var(--cy)}
+button:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid var(--cy);outline-offset:2px}
+button.on,button.pri{background:var(--cy);color:var(--bg);border-color:var(--cy)}
+.emb{position:relative;aspect-ratio:1;max-width:420px;width:100%;justify-self:center}
+.emb svg{width:100%;height:100%}
+.spin{transform-origin:200px 200px;animation:sp 40s linear infinite}
+@media(prefers-reduced-motion:reduce){.spin{animation:none}.meter .bar b{transition:none}}
+@keyframes sp{to{transform:rotate(360deg)}}
+nav.scroll{position:sticky;top:0;z-index:5;display:flex;gap:4px;overflow-x:auto;padding:8px max(5vw,16px);background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav.scroll a{flex:none;color:var(--ink);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px}
+nav.scroll a:hover{background:var(--cyb)}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+.note{font-size:14px;color:var(--mut)}
+.tag{display:inline-block;font-size:13px;font-weight:600;padding:2px 10px;border-radius:999px;background:var(--cyb);color:var(--cy)}
+.warn{background:var(--amb);color:var(--am);border-radius:10px;padding:10px 14px;font-size:15px}
+.okm{background:var(--grb);color:var(--gr);border-radius:10px;padding:10px 14px;font-size:15px}
+.err{border-left:3px solid var(--am);padding-left:12px;color:var(--mut);font-size:15px}
+.err b{color:var(--am)}
+.ppl{display:grid;gap:10px}
+.ppl div{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:center}
+.av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:var(--cyb);color:var(--cy)}
+ol.rules{padding-left:20px;margin:6px 0}
+.lessons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.lessons .card h3{margin:8px 0}
+.ts{font:500 14px "JetBrains Mono",monospace;color:var(--cy)}
+.steps{display:grid;gap:14px;counter-reset:s}
+.step{display:grid;grid-template-columns:40px minmax(0,1fr);gap:14px}
+.step::before{counter-increment:s;content:counter(s);width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:var(--cy);color:var(--bg)}
+.screen{border-radius:16px;border:1px solid var(--line);background:#0b1220;color:#e2e8f0;padding:16px;font-size:15px;box-shadow:0 1px 0 var(--line)}
+.screen .bar{font:500 13px "JetBrains Mono",monospace;color:#94a3b8;display:flex;justify-content:space-between;margin-bottom:12px}
+.screen .big{font-weight:700;font-size:17px;color:#fff}
+.screen .red{color:#fca5a5}
+.screen .sms{background:#1e293b;border-radius:14px 14px 14px 4px;padding:12px 14px;margin-top:6px}
+.screen .lnk{color:#7dd3fc;text-decoration:underline;overflow-wrap:anywhere}
+.vt{width:100%;border-collapse:collapse;font-size:14px}
+.vt td,.vt th{padding:8px;border-bottom:1px solid #243049;text-align:left}
+.vt td.n{text-align:right;white-space:nowrap}
+.vt tr.hl td{background:#0b3141}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+.case{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:24px;align-items:start}
+@media(min-width:901px){.case>div:first-child{position:sticky;top:80px}}
+.q{border-top:1px solid var(--line);padding:16px 0}
+.q:first-child{border-top:0;padding-top:0}
+.q label{font-weight:700;display:block;margin-bottom:6px}
+textarea,input[type=text]{width:100%;font:16px Inter,sans-serif;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+textarea{min-height:76px;resize:vertical}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.reveal{margin-top:10px;display:grid;gap:8px}
+.sort{display:grid;gap:10px}
+.sort .it{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.sort .fb{grid-column:1/-1;font-size:15px}
+.sort .it.good{border-color:var(--gr)}
+.sort .it.bad{border-color:var(--am)}
+.chk{display:flex;gap:10px;align-items:flex-start;margin:8px 0}
+.chk input{width:22px;height:22px;flex:none;margin-top:2px;accent-color:var(--cy)}
+.opt{display:block;width:100%;text-align:left;margin:6px 0;padding:10px 14px;height:auto}
+.opt.good{border-color:var(--gr);background:var(--grb)}
+.opt.bad{border-color:var(--am);background:var(--amb)}
+.scroll{overflow-x:auto}
+table.map{width:100%;border-collapse:collapse}
+table.map th,table.map td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+footer{color:var(--mut);font-size:14px}
+@media(max-width:900px){.lessons,.grid3{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.case{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.top,.grid2,.lessons,.grid3{grid-template-columns:minmax(0,1fr)}.emb{max-width:260px;order:-1}table.map{font-size:14px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:grid;grid-template-columns:7.5em minmax(0,1fr);gap:8px;border:0;padding:3px 0}.stack td::before{content:attr(data-l);font-weight:700}}
+</style>
+</head>
+<body>
+<header class="band"><div class="wrap top">
+  <div>
+    <div class="brand"><i></i><span id="brandTxt"></span></div>
+    <h1 id="h1"></h1>
+    <p class="lead" id="intro"></p>
+    <div class="lang" role="group" aria-label="Language"><button id="bES">Español</button><button id="bEN">English</button></div>
+    <div class="meter"><div class="bar"><b id="pbar"></b></div><ul id="plist"></ul></div>
+  </div>
+  <div class="emb" aria-hidden="true">
+    <svg viewBox="0 0 400 400">
+      <defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--cyb)"/><stop offset="1" stop-color="var(--panel)"/></linearGradient></defs>
+      <circle cx="200" cy="200" r="186" fill="none" stroke="var(--cy)" stroke-opacity=".35" stroke-width="2" stroke-dasharray="10 9" class="spin"/>
+      <circle cx="200" cy="200" r="160" fill="none" stroke="var(--line)" stroke-width="10"/>
+      <circle id="ring" cx="200" cy="200" r="160" fill="none" stroke="var(--gr)" stroke-width="10" stroke-linecap="round" transform="rotate(-90 200 200)" stroke-dasharray="0 1006"/>
+      <circle cx="200" cy="200" r="132" fill="none" stroke="var(--cy)" stroke-opacity=".25"/>
+      <path d="M200 92 L282 118 C282 200 262 262 200 308 C138 262 118 200 118 118 Z" fill="url(#sg)" stroke="var(--cy)" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M200 110 L266 131 C266 198 250 250 200 288 C150 250 134 198 134 131 Z" fill="none" stroke="var(--cy)" stroke-opacity=".35" stroke-width="2"/>
+      <path d="M176 186 v-18 a24 24 0 0 1 48 0 v18" fill="none" stroke="var(--cy)" stroke-width="10"/>
+      <rect x="164" y="184" width="72" height="56" rx="10" fill="var(--cy)"/>
+      <circle cx="200" cy="206" r="7" fill="var(--panel)"/><rect x="197" y="208" width="6" height="16" rx="2" fill="var(--panel)"/>
+      <text id="pct" x="200" y="356" text-anchor="middle" font-family="Inter Tight,Inter,sans-serif" font-weight="800" font-size="22" fill="var(--ink)"></text>
+    </svg>
+  </div>
+</div></header>
+<nav class="scroll" id="nav"></nav>
+<main id="app"></main>
+<footer class="band alt"><div class="wrap"><p id="foot"></p><p><a href="../index.html" style="color:var(--cy);font-weight:600">← Mapa del curso</a></p></div></footer>
+<script>
+{
+/* ---------- content (ES/EN) ---------- */
+const DATA={
+brand:{es:"Módulo 00 · Fundamentos",en:"Module 00 · Foundations"},
+h1:{es:"Empieza desde cero: entiende, actúa y comprueba",en:"Start from zero: understand, act and check"},
+intro:{es:"Esta guía acompaña al video del Módulo 00. Practicarás con Faro, una organización ficticia: revisarás evidencias, resolverás casos con pistas y compararás tu respuesta con una solución paso a paso.",en:"This guide goes with the Module 00 video. You will practise with Faro, a fictional organization: review evidence, solve cases with hints and compare your answer with a step-by-step solution."},
+nav:[["faro",{es:"Expediente Faro",en:"Faro case file"}],["lecciones",{es:"Lecciones",en:"Lessons"}],["ejemplo",{es:"Ejemplo resuelto",en:"Worked example"}],["lab-a",{es:"Lab L00A",en:"Lab L00A"}],["hechos",{es:"Hecho o suposición",en:"Fact or assumption"}],["lab-b",{es:"Lab L00B",en:"Lab L00B"}],["quiz",{es:"Autoevaluación",en:"Self-check"}],["pro",{es:"Conexión profesional",en:"Professional link"}]],
+prog:[["ex",{es:"Ejemplo resuelto revisado",en:"Worked example reviewed"}],["la",{es:"L00A: tres casos resueltos",en:"L00A: three cases solved"}],["fs",{es:"Hecho o suposición completado",en:"Fact or assumption completed"}],["lb",{es:"L00B: tu primer paso guardado",en:"L00B: your first step saved"}],["qz",{es:"Autoevaluación terminada",en:"Self-check finished"}]],
+faro:{
+ title:{es:"Expediente Faro",en:"Faro case file"},
+ lead:{es:"Faro Formación es un centro de capacitación ficticio con 14 personas que organiza cursos para empresas locales. Lo usaremos en todo el curso: cada módulo agrega un caso nuevo.",en:"Faro Training is a fictional training centre with 14 people that runs courses for local companies. We will use it across the whole course: each module adds a new case."},
+ fict:{es:"Todo en Faro es inventado: personas, dominios y datos. Nunca uses tus cuentas o documentos reales para practicar.",en:"Everything at Faro is invented: people, domains and data. Never practise with your real accounts or documents."},
+ peopleT:{es:"Personas",en:"People"},
+ people:[["AR","Alex Rivera",{es:"Analista. Prepara informes para clientes.",en:"Analyst. Prepares client reports."}],["MS","Marta Solís",{es:"Coordinadora. Toma fotos de los eventos con su teléfono.",en:"Coordinator. Takes event photos with her phone."}],["DP","Diego Paz",{es:"Soporte. Administra el correo y las carpetas compartidas.",en:"Support. Runs email and shared folders."}],["LA","Lucía Andrade",{es:"Directora. Aprueba las entregas a clientes.",en:"Director. Approves client deliveries."}]],
+ assetsT:{es:"Lo que Faro usa a diario",en:"What Faro uses every day"},
+ assets:[{es:"Correo corporativo en correo.faro.example",en:"Company email at mail.faro.example"},{es:"Carpeta compartida «Clientes» con los informes",en:"Shared folder “Clients” with the reports"},{es:"Portátiles del equipo",en:"Team laptops"},{es:"Teléfonos personales usados para trabajo",en:"Personal phones used for work"},{es:"Sitio web faro.example con fotos de eventos",en:"Website faro.example with event photos"}],
+ rulesT:{es:"Reglas internas",en:"Internal rules"},
+ rules:[{es:"Soporte nunca pide contraseñas ni códigos por mensaje.",en:"Support never asks for passwords or codes by message."},{es:"Los informes se comparten con personas concretas, no con enlaces abiertos.",en:"Reports are shared with named people, never through open links."},{es:"Antes de reemplazar un archivo, se confirma que existe una copia.",en:"Before replacing a file, confirm a copy exists."}]
+},
+lessonsT:{es:"Las seis lecciones del video",en:"The six video lessons"},
+lessonsL:{es:"Cada tarjeta resume la idea clave y el error que más se repite. La marca de tiempo indica dónde empieza en el video.",en:"Each card sums up the key idea and the most common mistake. The timestamp shows where it starts in the video."},
+errW:{es:"Error frecuente",en:"Common mistake"},
+lessons:[
+ ["0:00",{es:"Empieza desde cero",en:"Start from zero"},{es:"La ciberseguridad protege las actividades que haces con tecnología y la información de la que dependen.",en:"Cybersecurity protects the activities you carry out with technology and the information they depend on."},{es:"Pensar que solo trata de virus o hackers. También es no perder el acceso, las copias o la confianza en un mensaje.",en:"Thinking it is only about viruses or hackers. It is also about keeping access, copies and trust in a message."}],
+ ["2:02",{es:"Puedes empezar aquí",en:"You can start here"},{es:"No necesitas programar ni experiencia previa. Practicarás con datos inventados y entornos de ensayo.",en:"No coding or prior experience needed. You will practise with invented data and test environments."},{es:"Usar tus cuentas o documentos reales para practicar.",en:"Practising with your real accounts or documents."}],
+ ["3:54",{es:"Una ruta con continuidad",en:"A continuous path"},{es:"Seis etapas de diez módulos: comprender, proteger, construir, responder, organizar y sistemas de IA.",en:"Six stages of ten modules: understand, protect, build, respond, organize and AI systems."},{es:"Intentar memorizar todos los módulos. Basta con entender la dirección.",en:"Trying to memorize every module. Understanding the direction is enough."}],
+ ["6:24",{es:"Inteligencia artificial",en:"Artificial intelligence"},{es:"Dos preguntas distintas: cómo nos ayuda la IA en tareas de seguridad y cómo protegemos las aplicaciones que la usan.",en:"Two different questions: how AI helps with security tasks, and how we protect applications that use it."},{es:"Creer una respuesta porque suena clara. Hay que compararla con los datos.",en:"Trusting an answer because it sounds clear. It must be checked against the data."}],
+ ["8:10",{es:"Así trabajaremos",en:"How we will work"},{es:"Explicación, ejemplo, demostración, actividad y revisión. La evidencia es lo que permite comprobar una afirmación.",en:"Explanation, example, demonstration, activity and review. Evidence is what lets you check a claim."},{es:"Decir «ya lo recuperé» sin abrir el archivo para comprobarlo.",en:"Saying “I recovered it” without opening the file to check."}],
+ ["10:16",{es:"Tu primer paso",en:"Your first step"},{es:"Elige una actividad real, qué usas para hacerla y qué te preocuparía. Es el punto de partida de M01.",en:"Pick a real activity, what you use for it and what would worry you. It is where M01 starts."},{es:"Escribir contraseñas, correos o datos de cuentas reales en tu respuesta.",en:"Writing passwords, email addresses or real account details in your answer."}]
+],
+ex:{
+ title:{es:"Ejemplo resuelto: recuperar un informe",en:"Worked example: recovering a report"},
+ lead:{es:"Alex guardó por error una versión vacía encima de «Informe_Clientes.docx». Lucía espera el informe hoy. Así se resuelve, con el razonamiento a la vista.",en:"Alex accidentally saved an empty version over “Client_Report.docx”. Lucía expects the report today. Here is how to solve it, with the reasoning visible."},
+ steps:[
+  [{es:"Entiende el concepto",en:"Understand the concept"},{es:"Una copia de respaldo es una copia conservada para poder recuperar información. Aquí la copia es el historial de versiones de la carpeta compartida.",en:"A backup is a copy kept so information can be recovered. Here the copy is the shared folder's version history."}],
+  [{es:"Separa hechos de suposiciones",en:"Separate facts from assumptions"},{es:"Hecho: el archivo abre pero no tiene contenido. Hecho: la última versión es de hoy a las 10:42 y pesa 12 KB. Suposición que no haremos: que alguien más lo borró.",en:"Fact: the file opens but has no content. Fact: the latest version is from today at 10:42 and is 12 KB. Assumption we will not make: that someone else deleted it."}],
+  [{es:"Lee la evidencia",en:"Read the evidence"},{es:"La v3 es la vacía. La v2, de ayer, es la más reciente con contenido. La v1 es más antigua y le falta el trabajo de ayer.",en:"v3 is the empty one. v2, from yesterday, is the latest with content. v1 is older and lacks yesterday's work."}],
+  [{es:"Actúa de forma reversible",en:"Act reversibly"},{es:"Restaura la v2 como copia nueva («Informe_Clientes_restaurado») en lugar de sobrescribir. Si te equivocas, nada se pierde y la v3 queda como evidencia.",en:"Restore v2 as a new copy (“Client_Report_restored”) instead of overwriting. If you are wrong nothing is lost, and v3 stays as evidence."}],
+  [{es:"Comprueba el resultado",en:"Check the result"},{es:"Abre la copia: tiene 9 páginas y la tabla de 21 clientes que Alex terminó ayer. Solo ahora puedes decir que lo recuperaste.",en:"Open the copy: it has 9 pages and the 21-client table Alex finished yesterday. Only now can you say it is recovered."}],
+  [{es:"Deja evidencia",en:"Leave evidence"},{es:"Nota breve: versión restaurada (v2, ayer 18:15), hora, qué se comprobó y quién fue avisado (Lucía). Sin datos de clientes.",en:"Short note: version restored (v2, yesterday 18:15), time, what was checked and who was told (Lucía). No client data."}]
+ ],
+ errT:{es:"Restaurar la v1 porque es «la original». Perderías el trabajo de ayer.",en:"Restoring v1 because it is “the original”. You would lose yesterday's work."},
+ done:{es:"Lo entendí",en:"Got it"}
+},
+labA:{
+ title:{es:"Lab L00A · Tres situaciones, tres problemas",en:"Lab L00A · Three situations, three problems"},
+ lead:{es:"25 minutos · papel o editor de texto. Mira la evidencia de cada caso y responde los cuatro pasos. Pide una pista si te atoras; abre la solución solo después de escribir tu respuesta.",en:"25 minutes · paper or a text editor. Look at each case's evidence and answer the four steps. Ask for a hint if stuck; open the solution only after writing your answer."},
+ prompts:[{es:"1. ¿Qué observas? Solo hechos.",en:"1. What do you see? Facts only."},{es:"2. ¿Qué actividad o información está en juego?",en:"2. What activity or information is at stake?"},{es:"3. ¿Qué necesitas entender antes de actuar?",en:"3. What do you need to understand before acting?"},{es:"4. ¿Cómo lo comprobarías sin riesgo?",en:"4. How would you check it safely?"}],
+ hint:{es:"Pista",en:"Hint"},sol:{es:"Solución",en:"Solution"},
+ cases:[
+  {prompts:[{"es": "1. ¿Qué dice exactamente la pantalla de Alex? Solo hechos.", "en": "1. What exactly does Alex's screen say? Facts only."}, {"es": "2. ¿Qué tiene que lograr Alex antes de las 17:00 y qué lo pone en riesgo?", "en": "2. What must Alex achieve before 17:00, and what puts it at risk?"}, {"es": "3. ¿Qué necesitas saber antes de actuar sobre la cuenta?", "en": "3. What do you need to know before acting on the account?"}, {"es": "4. ¿A quién avisarías y por qué canal?", "en": "4. Who would you tell, and through which channel?"}],name:{es:"Caso A · La cuenta de Alex",en:"Case A · Alex's account"},
+   ctx:{es:"Son las 16:40. Alex debe enviar el informe a Lucía antes de las 17:00 y ve esta pantalla.",en:"It is 16:40. Alex must send the report to Lucía before 17:00 and sees this screen."},
+   kind:"login",
+   steps:[
+    [{es:"Lee la pantalla palabra por palabra.",en:"Read the screen word by word."},{es:"La cuenta de Alex está bloqueada temporalmente por demasiados intentos. Faltan 20 minutos para la entrega.",en:"Alex's account is temporarily locked after too many attempts. Delivery is due in 20 minutes."},{es:"Afirmar que alguien hackeó la cuenta. La pantalla no dice quién hizo los intentos.",en:"Claiming the account was hacked. The screen does not say who made the attempts."}],
+    [{es:"¿Qué tiene que lograr Alex hoy?",en:"What must Alex achieve today?"},{es:"Entregar el informe a tiempo. El acceso a la cuenta importa porque sostiene esa entrega.",en:"Delivering the report on time. Account access matters because the delivery depends on it."},{es:"Responder solo «el correo». El correo es el medio; lo que importa es la entrega.",en:"Answering just “email”. Email is the means; the delivery is what matters."}],
+    [{es:"¿Quién hizo los intentos? ¿Quién puede desbloquear?",en:"Who made the attempts? Who can unlock it?"},{es:"Si los intentos fueron de Alex o de otra persona, quién puede desbloquear la cuenta (Soporte) y si existe una vía autorizada para entregar a tiempo.",en:"Whether Alex or someone else made the attempts, who can unlock the account (Support) and whether an authorized way to deliver on time exists."},{es:"Probar más contraseñas o enviar el informe desde un correo personal.",en:"Trying more passwords or sending the report from a personal email."}],
+    [{es:"¿A quién avisas y por qué canal?",en:"Who do you tell, and through which channel?"},{es:"Contactar a Diego (Soporte) por el canal habitual, no por un enlace recibido. Avisar a Lucía del posible retraso. Al recuperar el acceso, revisar con Soporte los inicios de sesión recientes.",en:"Contact Diego (Support) through the usual channel, not a link you received. Tell Lucía about the possible delay. Once access is back, review recent sign-ins with Support."},{es:"Buscar «desbloquear correo» en internet y seguir el primer enlace.",en:"Searching “unlock email” online and following the first link."}]
+   ]},
+  {prompts:[{"es": "1. ¿Qué muestra la configuración del teléfono de Marta?", "en": "1. What do Marta's phone settings show?"}, {"es": "2. ¿Qué información de Faro está en juego?", "en": "2. What Faro information is at stake?"}, {"es": "3. ¿Qué tienes que decidir antes de copiar las fotos?", "en": "3. What do you have to decide before copying the photos?"}, {"es": "4. ¿Cómo comprobarías que la copia funciona?", "en": "4. How would you check that the copy works?"}],name:{es:"Caso B · Las fotos de Marta",en:"Case B · Marta's photos"},
+   ctx:{es:"El teléfono de Marta se cayó; la pantalla está rota pero aún funciona. Ahí están las fotos de los eventos de Faro. Abre la configuración y ve esto.",en:"Marta dropped her phone; the screen is cracked but still works. Faro's event photos are on it. She opens settings and sees this."},
+   kind:"phone",
+   steps:[
+    [{es:"¿Qué dice el estado de la copia?",en:"What does the backup status say?"},{es:"Las fotos solo están en el teléfono: la copia está desactivada y nunca se hizo. El teléfono todavía funciona.",en:"The photos exist only on the phone: backup is off and has never run. The phone still works."},{es:"Decir que las fotos ya se perdieron. Siguen en el dispositivo.",en:"Saying the photos are already lost. They are still on the device."}],
+    [{es:"¿Para qué usa Faro esas fotos?",en:"What does Faro use those photos for?"},{es:"Las fotos de eventos que Faro publica en su sitio y en informes. Si el teléfono falla del todo, no hay otra copia.",en:"Event photos Faro publishes on its website and in reports. If the phone fails completely, there is no other copy."},{es:"Pensar que el problema es el teléfono. El valor está en las fotos.",en:"Thinking the phone is the problem. The value is in the photos."}],
+    [{es:"¿Dónde está permitido guardarlas?",en:"Where is it allowed to store them?"},{es:"Cuáles fotos son de Faro y cuáles personales, en qué ubicación permite Faro guardarlas y cuánto espacio se necesita.",en:"Which photos belong to Faro and which are personal, where Faro allows them to be stored and how much space is needed."},{es:"Subirlas a cualquier servicio gratuito sin saber si Faro lo permite.",en:"Uploading them to any free service without knowing whether Faro allows it."}],
+    [{es:"Una copia solo cuenta si se puede abrir.",en:"A copy only counts if it opens."},{es:"Copiar primero las fotos de Faro a la ubicación autorizada, abrir tres de ellas desde la copia y confirmar que se ven completas. Después, activar la copia automática.",en:"Copy Faro's photos to the authorized location first, open three of them from the copy and confirm they are complete. Then turn on automatic backup."},{es:"Activar la copia y dar por hecho que funcionó sin abrir ningún archivo.",en:"Turning on backup and assuming it worked without opening a single file."}]
+   ]},
+  {prompts:[{"es": "1. ¿Qué datos concretos tiene el mensaje? (remitente, plazo, enlace)", "en": "1. What concrete details does the message have? (sender, deadline, link)"}, {"es": "2. ¿Qué podría perder Diego si sigue el mensaje?", "en": "2. What could Diego lose by following the message?"}, {"es": "3. ¿Qué necesitas averiguar antes de actuar?", "en": "3. What do you need to find out before acting?"}, {"es": "4. ¿Cómo lo verificarías sin usar el mensaje?", "en": "4. How would you verify it without using the message?"}],name:{es:"Caso C · El mensaje de Diego",en:"Case C · Diego's message"},
+   ctx:{es:"Diego recibe este SMS en su teléfono personal un viernes por la noche.",en:"Diego receives this text on his personal phone on a Friday night."},
+   kind:"sms",
+   steps:[
+    [{es:"Remitente, plazo, enlace.",en:"Sender, deadline, link."},{es:"Un SMS de «BANCO-AVISO» pide entrar a un enlace en un plazo de 2 horas. El dominio del enlace no es uno que Diego conozca.",en:"A text from “BANK-ALERT” asks him to open a link within 2 hours. Diego does not recognize the link's domain."},{es:"Tocar el enlace «solo para ver qué es».",en:"Tapping the link “just to see what it is”."}],
+    [{es:"¿Qué podría perder Diego?",en:"What could Diego lose?"},{es:"El acceso a su cuenta bancaria personal y sus credenciales, si las escribiera en esa página.",en:"Access to his personal bank account and his credentials, if he typed them into that page."},{es:"Pensar que no pasa nada si no da su contraseña: el enlace ya pide actuar con prisa.",en:"Thinking it is fine as long as he gives no password: the link already pushes him to act in a hurry."}],
+    [{es:"¿Cómo sabrías si el aviso es real?",en:"How would you know if the alert is real?"},{es:"Si el banco realmente envió el aviso y si hay actividad inusual. Eso se averigua por un canal que Diego ya conoce, no por el mensaje.",en:"Whether the bank really sent it and whether there is unusual activity. That is checked through a channel Diego already knows, not the message."},{es:"Responder el SMS para preguntar si es real.",en:"Replying to the text to ask if it is real."}],
+    [{es:"Usa el canal oficial que ya tienes.",en:"Use the official channel you already have."},{es:"Abrir la app oficial del banco o llamar al número impreso en su tarjeta, sin usar el enlace. Si no hay ningún aviso, guardar una captura como evidencia y borrar el mensaje.",en:"Open the bank's official app or call the number printed on his card, without using the link. If there is no alert, keep a screenshot as evidence and delete the message."},{es:"Llamar al teléfono que aparece en el propio mensaje.",en:"Calling the phone number shown in the message itself."}]
+   ]}
+ ]
+},
+fs:{
+ title:{es:"Hecho o suposición",en:"Fact or assumption"},
+ lead:{es:"Antes de actuar hay que saber qué está confirmado. Clasifica cada frase sobre los tres casos.",en:"Before acting, know what is confirmed. Classify each statement about the three cases."},
+ f:{es:"Hecho",en:"Fact"},a:{es:"Suposición",en:"Assumption"},
+ items:[
+  ["f",{es:"El mensaje de Diego pide entrar a un enlace.",en:"Diego's message asks him to open a link."},{es:"Se ve en el SMS.",en:"It is visible in the text."}],
+  ["a",{es:"El mensaje lo envió el banco.",en:"The bank sent the message."},{es:"El nombre del remitente se puede inventar. Falta confirmarlo por un canal oficial.",en:"A sender name can be faked. It still needs confirming through an official channel."}],
+  ["f",{es:"La cuenta de Alex está bloqueada temporalmente.",en:"Alex's account is temporarily locked."},{es:"Lo dice la pantalla.",en:"The screen says so."}],
+  ["a",{es:"Otra persona hizo los intentos de acceso de Alex.",en:"Someone else made the attempts on Alex's account."},{es:"La pantalla no dice quién. Pudo ser Alex escribiendo mal su contraseña.",en:"The screen does not say who. It may have been Alex mistyping."}],
+  ["f",{es:"La copia de seguridad de Marta está desactivada.",en:"Marta's backup is turned off."},{es:"Lo muestra la configuración.",en:"Settings show it."}],
+  ["a",{es:"Las fotos de Marta ya se perdieron.",en:"Marta's photos are already lost."},{es:"El teléfono todavía funciona; las fotos siguen ahí.",en:"The phone still works; the photos are still there."}]
+ ],
+ done:{es:"Completaste la clasificación.",en:"You finished the classification."}
+},
+labB:{
+ title:{es:"Lab L00B · Tu primer paso",en:"Lab L00B · Your first step"},
+ lead:{es:"10 minutos. Es la actividad del final del video. Primero mira el ejemplo de Marta y después escribe el tuyo. Lo usarás en M01.",en:"10 minutes. This is the activity at the end of the video. Read Marta's example, then write yours. You will use it in M01."},
+ exT:{es:"Ejemplo: Marta",en:"Example: Marta"},
+ ex:[[{es:"Actividad",en:"Activity"},{es:"Guardar las fotos de los eventos de Faro.",en:"Keeping the photos from Faro's events."}],[{es:"Qué utilizo",en:"What I use"},{es:"Mi teléfono y su galería.",en:"My phone and its gallery."}],[{es:"Qué me preocuparía",en:"What would worry me"},{es:"Perder las únicas copias si el teléfono se daña.",en:"Losing the only copies if the phone breaks."}],[{es:"Para qué quiero aprender",en:"Why I want to learn"},{es:"Para conservarlas y comprobar que puedo recuperarlas.",en:"To keep them and check that I can recover them."}]],
+ why:{es:"Por qué funciona: nombra una actividad concreta, no «la tecnología»; dice qué usa sin dar datos de cuentas; y la preocupación es una consecuencia, no una palabra técnica.",en:"Why it works: it names a concrete activity, not “technology”; it says what is used without account details; and the worry is a consequence, not a technical term."},
+ yourT:{es:"Tu respuesta",en:"Your answer"},
+ fields:[["act",{es:"Una actividad que haces con tecnología",en:"An activity you do with technology"},{es:"Ej.: entregar tareas en la plataforma de mi escuela",en:"E.g. handing in assignments on my school platform"}],["use",{es:"Qué utilizas para hacerla",en:"What you use for it"},{es:"Ej.: mi portátil y mi cuenta de estudiante",en:"E.g. my laptop and my student account"}],["worry",{es:"Qué te preocuparía que ocurriera",en:"What would worry you"},{es:"Ej.: no poder entrar el día de la entrega",en:"E.g. not being able to sign in on the due date"}],["why",{es:"Me gustaría aprender seguridad para poder…",en:"I'd like to learn security so I can…"},{es:"Ej.: saber qué hacer si pierdo el acceso",en:"E.g. know what to do if I lose access"}]],
+ rubT:{es:"Revisa tu respuesta",en:"Review your answer"},
+ rub:[{es:"La actividad es concreta (no «usar internet»).",en:"The activity is concrete (not “using the internet”)."},{es:"Nombré lo que uso sin contraseñas, correos ni números de cuenta.",en:"I named what I use with no passwords, emails or account numbers."},{es:"La preocupación describe una consecuencia.",en:"The worry describes a consequence."},{es:"Mi razón para aprender está en mis palabras, sin términos técnicos.",en:"My reason to learn is in my own words, without jargon."}],
+ save:{es:"Guardar en este navegador",en:"Save in this browser"},copy:{es:"Copiar mi respuesta",en:"Copy my answer"},
+ priv:{es:"Parece que escribiste un correo, una contraseña o un número largo. Cámbialo por una descripción, por ejemplo «mi cuenta de correo».",en:"It looks like you typed an email, a password or a long number. Replace it with a description, e.g. “my email account”."},
+ need:{es:"Completa los cuatro campos y marca los cuatro criterios.",en:"Fill in all four fields and tick all four criteria."},
+ saved:{es:"Guardado. Consérvalo: es tu punto de partida en M01. Solo vive en este navegador; cópialo si quieres tenerlo en otro lugar.",en:"Saved. Keep it: it is your starting point in M01. It only lives in this browser; copy it to keep it elsewhere."},
+ copied:{es:"Copiado al portapapeles.",en:"Copied to the clipboard."}
+},
+quiz:{
+ title:{es:"Autoevaluación",en:"Self-check"},
+ lead:{es:"Cinco preguntas. Cada respuesta explica por qué.",en:"Five questions. Every answer explains why."},
+ score:{es:"Resultado",en:"Score"},
+ qs:[
+  [{es:"¿Qué protege la ciberseguridad, según el módulo?",en:"What does cybersecurity protect, according to the module?"},[{es:"Solo las computadoras de las empresas",en:"Only company computers"},{es:"Las actividades que hacemos con tecnología y la información de la que dependen",en:"The activities we carry out with technology and the information they depend on"},{es:"Únicamente las contraseñas",en:"Only passwords"}],1,{es:"Incluye tu teléfono, tus cuentas y los servicios de una organización: lo que importa es la actividad y su información.",en:"It covers your phone, your accounts and an organization's services: what matters is the activity and its information."}],
+  [{es:"La cuenta de Alex está bloqueada y falta poco para la entrega. ¿Qué hace primero?",en:"Alex's account is locked and the deadline is close. What first?"},[{es:"Probar otras contraseñas",en:"Try other passwords"},{es:"Enviar desde su correo personal",en:"Send from a personal email"},{es:"Contactar a Soporte por el canal habitual y avisar a Lucía",en:"Contact Support through the usual channel and tell Lucía"}],2,{es:"Más intentos alargan el bloqueo y un correo personal saca información de Faro. Soporte puede desbloquear y revisar qué pasó.",en:"More attempts extend the lock, and a personal email moves Faro's information outside. Support can unlock and review what happened."}],
+  [{es:"¿Qué evidencia demuestra que recuperaste un archivo?",en:"What evidence proves you recovered a file?"},[{es:"Haber hecho clic en «Restaurar»",en:"Having clicked “Restore”"},{es:"Abrir la copia y comprobar que contiene lo esperado",en:"Opening the copy and checking it holds the expected content"},{es:"Que la app no mostró errores",en:"The app showed no errors"}],1,{es:"Una acción no es un resultado. La comprobación del contenido es lo que permite afirmarlo.",en:"An action is not a result. Checking the content is what allows the claim."}],
+  [{es:"¿Qué es un entorno de ensayo?",en:"What is a test environment?"},[{es:"Un lugar preparado para practicar sin trabajar sobre sistemas reales",en:"A place set up to practise without touching real systems"},{es:"Una copia de tus cuentas personales",en:"A copy of your personal accounts"},{es:"Un programa de pago obligatorio",en:"A mandatory paid program"}],0,{es:"Por eso los casos de Faro usan datos inventados.",en:"That is why Faro's cases use invented data."}],
+  [{es:"Una herramienta de IA da una respuesta clara y segura. ¿Qué haces?",en:"An AI tool gives a clear, confident answer. What do you do?"},[{es:"Usarla tal cual",en:"Use it as is"},{es:"Compararla con los datos antes de decidir",en:"Check it against the data before deciding"},{es:"Descartarla siempre",en:"Always discard it"}],1,{es:"Responder con claridad no significa responder correctamente. La revisión humana contra los datos es parte del trabajo.",en:"Answering clearly is not answering correctly. Human review against the data is part of the job."}]
+ ]
+},
+pro:{
+ title:{es:"Conexión profesional",en:"Professional link"},
+ lead:{es:"No necesitas memorizar estos marcos ahora. Esta tabla muestra hacia dónde va cada etapa del curso, para que veas que lo que practicas aquí es lo mismo que se hace en el trabajo.",en:"You do not need to memorize these frameworks now. This table shows where each course stage leads, so you can see that what you practise here is what happens at work."},
+ head:[{es:"Etapa del curso",en:"Course stage"},{es:"Qué harás",en:"What you will do"},{es:"Referencia profesional",en:"Professional reference"}],
+ rows:[
+  [{es:"1 · Comprender",en:"1 · Understand"},{es:"Inventario de lo que importa y qué puede salir mal",en:"Inventory what matters and what can go wrong"},"NIST CSF 2.0: Identify · ISO/IEC 27001"],
+  [{es:"2 · Proteger",en:"2 · Protect"},{es:"Dispositivos, conexiones, accesos y recuperación",en:"Devices, connections, access and recovery"},"NIST CSF 2.0: Protect, Recover"],
+  [{es:"3 · Construir",en:"3 · Build"},{es:"Aplicaciones pequeñas que manejan datos y permisos",en:"Small applications that handle data and permissions"},"NIST SSDF (SP 800-218)"],
+  [{es:"4 · Responder",en:"4 · Respond"},{es:"Revisar señales, investigar y recuperar",en:"Review signals, investigate and recover"},"NIST CSF 2.0: Detect, Respond · SP 800-61"],
+  [{es:"5 · Organizar",en:"5 · Organize"},{es:"Prioridades, responsables y decisiones",en:"Priorities, owners and decisions"},"NIST CSF 2.0: Govern · ISO/IEC 27001"],
+  [{es:"6 · Sistemas de IA",en:"6 · AI systems"},{es:"Datos permitidos, acciones limitadas y evaluación",en:"Allowed data, limited actions and evaluation"},"NIST AI RMF · ISO/IEC 42001"]
+ ],
+ ev:{es:"Comprender, actuar y comprobar es el mismo ciclo que siguen las auditorías: una afirmación vale cuando hay evidencia que la respalda.",en:"Understand, act and check is the same cycle audits follow: a claim holds when evidence supports it."}
+},
+foot:{es:"Siguiente: M01 · Qué es la ciberseguridad. Lleva tu respuesta de L00B. Faro, sus personas y dominios .example son ficticios.",en:"Next: M01 · What is cybersecurity. Bring your L00B answer. Faro, its people and .example domains are fictional."}
+};
+
+/* ---------- state (localStorage is optional) ---------- */
+const KEY="m00-v2";
+let S={lang:(document.documentElement.dataset.lang||"es"),done:{},inp:{},rev:{},fs:{},quiz:{},rub:{},caseIx:0};
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(s)S=Object.assign(S,s)}catch(e){}
+S.lang=document.documentElement.dataset.lang||S.lang;
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const t=o=>o[S.lang];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const $=id=>document.getElementById(id);
+
+/* ---------- mock evidence screens ---------- */
+function screen(kind){
+ const es=S.lang==="es";
+ if(kind==="login")return `<div class="screen" role="img" aria-label="${es?"Pantalla de inicio de sesión":"Sign-in screen"}"><div class="bar"><span>correo.faro.example</span><span>16:40</span></div><div class="big">${es?"Iniciar sesión":"Sign in"}</div><p>alex.rivera@faro.example</p><p class="red">${es?"Tu cuenta está bloqueada temporalmente por demasiados intentos. Inténtalo de nuevo en 30 minutos o contacta a Soporte.":"Your account is temporarily locked after too many attempts. Try again in 30 minutes or contact Support."}</p></div>`;
+ if(kind==="phone")return `<div class="screen" role="img" aria-label="${es?"Configuración del teléfono":"Phone settings"}"><div class="bar"><span>${es?"Ajustes › Fotos":"Settings › Photos"}</span><span>21:05</span></div><div class="big">${es?"Copia de seguridad de fotos":"Photo backup"}</div><p class="red">${es?"Desactivada":"Off"}</p><p>${es?"Última copia: nunca":"Last backup: never"}</p><p>${es?"1 284 fotos solo en este dispositivo":"1,284 photos on this device only"}</p><p>${es?"Espacio usado: 18,6 GB":"Space used: 18.6 GB"}</p></div>`;
+ return `<div class="screen" role="img" aria-label="SMS"><div class="bar"><span>${es?"BANCO-AVISO":"BANK-ALERT"}</span><span>${es?"vie 22:17":"Fri 22:17"}</span></div><div class="sms">${es?"Estimado cliente: detectamos actividad inusual. Su cuenta será bloqueada en 2 horas. Verifique aquí:":"Dear customer: we detected unusual activity. Your account will be locked in 2 hours. Verify here:"} <span class="lnk">banco-seguro-verifica.example/acceso</span></div><p class="note" style="color:#94a3b8">${es?"Mensaje ficticio para practicar.":"Fictional message for practice."}</p></div>`;
+}
+const versions=()=>{const es=S.lang==="es";return `<div class="screen"><div class="bar"><span>${es?"Clientes › Informe_Clientes.docx › Versiones":"Clients › Client_Report.docx › Versions"}</span></div><div class="scroll"><table class="vt"><tr><th>${es?"Versión":"Version"}</th><th>${es?"Fecha":"Date"}</th><th>${es?"Autor":"Author"}</th><th class="n">${es?"Tamaño":"Size"}</th></tr><tr><td>v3</td><td>${es?"hoy 10:42":"today 10:42"}</td><td>Alex</td><td class="n">12 KB</td></tr><tr class="hl"><td>v2</td><td>${es?"ayer 18:15":"yesterday 18:15"}</td><td>Alex</td><td class="n">284 KB</td></tr><tr><td>v1</td><td>${es?"lunes 09:03":"Monday 09:03"}</td><td>Marta</td><td class="n">190 KB</td></tr></table></div></div>`};
+
+/* ---------- sections ---------- */
+function render(){
+ document.documentElement.lang=S.lang;
+ $("bES").classList.toggle("on",S.lang==="es");$("bEN").classList.toggle("on",S.lang==="en");
+ $("brandTxt").textContent=t(DATA.brand);$("h1").textContent=t(DATA.h1);$("intro").textContent=t(DATA.intro);
+ $("nav").innerHTML=DATA.nav.map(([id,l])=>`<a href="#${id}">${t(l)}</a>`).join("");
+ const F=DATA.faro,X=DATA.ex,A=DATA.labA,C=A.cases[S.caseIx],FS=DATA.fs,B=DATA.labB,Q=DATA.quiz,P=DATA.pro;
+ $("app").innerHTML=`
+<section class="band" id="faro"><div class="wrap">
+ <h2>${t(F.title)}</h2><p class="lead">${t(F.lead)}</p><p class="warn">${t(F.fict)}</p>
+ <div class="grid3" style="margin-top:16px">
+  <div class="card"><h3>${t(F.peopleT)}</h3><div class="ppl" style="margin-top:12px">${F.people.map(([i,n,r])=>`<div><span class="av">${i}</span><span><b>${n}</b><br><span class="note">${t(r)}</span></span></div>`).join("")}</div></div>
+  <div class="card"><h3>${t(F.assetsT)}</h3><ul>${F.assets.map(a=>`<li>${t(a)}</li>`).join("")}</ul></div>
+  <div class="card"><h3>${t(F.rulesT)}</h3><ol class="rules">${F.rules.map(r=>`<li>${t(r)}</li>`).join("")}</ol></div>
+ </div></div></section>
+<section class="band alt" id="lecciones"><div class="wrap">
+ <h2>${t(DATA.lessonsT)}</h2><p class="lead">${t(DATA.lessonsL)}</p>
+ <div class="lessons" style="margin-top:16px">${DATA.lessons.map(([ts,ti,id,er],i)=>`<div class="card"><span class="ts">L${i+1} · ${ts}</span><h3>${t(ti)}</h3><p>${t(id)}</p><p class="err"><b>${t(DATA.errW)}:</b> ${t(er)}</p></div>`).join("")}</div>
+</div></section>
+<section class="band" id="ejemplo"><div class="wrap">
+ <h2>${t(X.title)}</h2><p class="lead">${t(X.lead)}</p>
+ <div class="case" style="margin-top:16px">
+  <div>${versions()}<p class="err" style="margin-top:14px"><b>${t(DATA.errW)}:</b> ${t(X.errT)}</p></div>
+  <div class="steps">${X.steps.map(([h,b])=>`<div class="step"><div><h3>${t(h)}</h3><p>${t(b)}</p></div></div>`).join("")}
+   <div class="row"><button id="exDone" class="${S.done.ex?"on":""}">${S.done.ex?"✓ ":""}${t(X.done)}</button></div></div>
+ </div></div></section>
+<section class="band alt" id="lab-a"><div class="wrap">
+ <h2>${t(A.title)}</h2><p class="lead">${t(A.lead)}</p>
+ <div class="tabs" role="tablist">${A.cases.map((c,i)=>`<button role="tab" aria-selected="${i===S.caseIx}" data-case="${i}" class="${i===S.caseIx?"on":""}">${caseDone(i)?"✓ ":""}${t(c.name)}</button>`).join("")}</div>
+ <div class="case">
+  <div><p>${t(C.ctx)}</p>${screen(C.kind)}</div>
+  <div class="card"><p class="note" style="margin:0 0 4px"><b>${t(C.name)}</b> · ${t({es:"Tus respuestas de este caso. Cada caso guarda las suyas; cambia de pestaña cuando quieras.",en:"Your answers for this case. Each case keeps its own; switch tabs any time."})}</p>${C.steps.map(([h,s,e],k)=>{const id=`a${S.caseIx}_${k}`,r=S.rev[id]||0;return `<div class="q"><label for="${id}">${t((C.prompts||A.prompts)[k])}</label><textarea id="${id}" data-inp="${id}"></textarea>
+   <div class="row"><button data-rev="${id}" data-lv="1">${t(A.hint)}</button><button data-rev="${id}" data-lv="2" class="pri">${t(A.sol)}</button></div>
+   <div class="reveal">${r>=1?`<p class="okm" style="background:var(--cyb);color:var(--cy)">${t(h)}</p>`:""}${r>=2?`<p class="okm">✓ ${t(s)}</p><p class="err"><b>${t(DATA.errW)}:</b> ${t(e)}</p>`:""}</div></div>`}).join("")}</div>
+ </div></div></section>
+<section class="band" id="hechos"><div class="wrap">
+ <h2>${t(FS.title)}</h2><p class="lead">${t(FS.lead)}</p>
+ <div class="sort" style="margin-top:16px">${FS.items.map(([ans,txt,why],i)=>{const g=S.fs[i];const st=g?(g===ans?"good":"bad"):"";return `<div class="it ${st}"><span>${t(txt)}</span><span class="row" style="margin:0"><button data-fs="${i}" data-v="f" class="${g==="f"?"on":""}">${t(FS.f)}</button><button data-fs="${i}" data-v="a" class="${g==="a"?"on":""}">${t(FS.a)}</button></span>${g?`<span class="fb ${g===ans?"okm":"warn"}">${g===ans?"✓":"✗"} ${(ans==="f"?t(FS.f):t(FS.a))}. ${t(why)}</span>`:""}</div>`}).join("")}</div>
+ ${S.done.fs?`<p class="okm" style="margin-top:12px">${t(FS.done)}</p>`:""}
+</div></section>
+<section class="band alt" id="lab-b"><div class="wrap">
+ <h2>${t(B.title)}</h2><p class="lead">${t(B.lead)}</p>
+ <div class="grid2" style="margin-top:16px">
+  <div class="card"><h3>${t(B.exT)}</h3>${B.ex.map(([k,v])=>`<p><b>${t(k)}:</b> ${t(v)}</p>`).join("")}<p class="note">${t(B.why)}</p></div>
+  <div class="card"><h3>${t(B.yourT)}</h3>${B.fields.map(([id,l,ph])=>`<div class="q"><label for="b_${id}">${t(l)}</label><input type="text" id="b_${id}" data-inp="b_${id}" placeholder="${esc(t(ph))}"></div>`).join("")}
+   <div id="privMsg"></div>
+   <h3 style="margin-top:14px">${t(B.rubT)}</h3>${B.rub.map((r,i)=>`<label class="chk"><input type="checkbox" id="rub${i}" data-rub="${i}" ${S.rub[i]?"checked":""}><span>${t(r)}</span></label>`).join("")}
+   <div class="row"><button class="pri" id="bSave">${t(B.save)}</button><button id="bCopy">${t(B.copy)}</button></div><div id="bMsg" style="margin-top:10px">${S.done.lb?`<p class="okm">${t(B.saved)}</p>`:""}</div></div>
+ </div></div></section>
+<section class="band" id="quiz"><div class="wrap">
+ <h2>${t(Q.title)}</h2><p class="lead">${t(Q.lead)}</p>
+ <div class="grid2" style="margin-top:16px">${Q.qs.map(([q,opts,ok,why],i)=>{const a=S.quiz[i];return `<div class="card"><h3>${i+1}. ${t(q)}</h3>${opts.map((o,j)=>`<button class="opt ${a!==undefined&&j===ok?"good":""} ${a===j&&j!==ok?"bad":""}" data-q="${i}" data-o="${j}">${t(o)}</button>`).join("")}${a!==undefined?`<p class="note">${a===ok?"✓":"✗"} ${t(why)}</p>`:""}</div>`}).join("")}
+ <div class="card" style="display:grid;place-items:center;text-align:center"><div><div class="note">${t(Q.score)}</div><div style="font:800 clamp(40px,6vw,64px) 'Inter Tight',sans-serif">${Object.keys(S.quiz).filter(i=>S.quiz[i]===Q.qs[i][2]).length}/${Q.qs.length}</div></div></div></div>
+</div></section>
+<section class="band alt" id="pro"><div class="wrap">
+ <h2>${t(P.title)}</h2><p class="lead">${t(P.lead)}</p>
+ <div class="scroll" style="margin-top:12px"><table class="map stack"><thead><tr>${P.head.map(h=>`<th>${t(h)}</th>`).join("")}</tr></thead><tbody>${P.rows.map(([a,b,c])=>`<tr><td data-l="${t(P.head[0])}"><b>${t(a)}</b></td><td data-l="${t(P.head[1])}">${t(b)}</td><td data-l="${t(P.head[2])}">${c}</td></tr>`).join("")}</tbody></table></div>
+ <p class="okm" style="margin-top:14px">${t(P.ev)}</p>
+</div></section>`;
+ $("foot").textContent=t(DATA.foot);
+ document.querySelectorAll("[data-inp]").forEach(el=>{el.value=S.inp[el.dataset.inp]||""});
+ checkPriv();progress();addResets();
+}
+function caseDone(i){return DATA.labA.cases[i].steps.every((_,k)=>(S.rev[`a${i}_${k}`]||0)>=2)}
+function progress(){
+ S.done.la=[0,1,2].every(caseDone);
+ S.done.fs=DATA.fs.items.every((x,i)=>S.fs[i]===x[0]);
+ S.done.qz=Object.keys(S.quiz).length===DATA.quiz.qs.length;
+ const ks=DATA.prog,n=ks.filter(([k])=>S.done[k]).length,p=n/ks.length;
+ $("pbar").style.width=(p*100)+"%";
+ $("plist").innerHTML=ks.map(([k,l])=>`<li class="${S.done[k]?"ok":""}">${t(l)}</li>`).join("");
+ $("ring").setAttribute("stroke-dasharray",`${(p*1005.3).toFixed(1)} 1006`);$("ring").style.opacity=n?1:0;
+ $("pct").textContent=`${n}/${ks.length} ${S.lang==="es"?"actividades":"activities"}`;
+ save();
+}
+const PRIV=/\S+@\S+\.\S+|contrase(ñ|n)a\s*[:=]|password\s*[:=]|clave\s*[:=]|\d{8,}/i;
+function checkPriv(){const bad=DATA.labB.fields.some(([id])=>PRIV.test(S.inp["b_"+id]||""));$("privMsg").innerHTML=bad?`<p class="warn">${t(DATA.labB.priv)}</p>`:"";return bad}
+function answerText(){return DATA.labB.fields.map(([id,l])=>`${t(l)}: ${S.inp["b_"+id]||""}`).join("\n")}
+
+/* ---------- events ---------- */
+document.addEventListener("input",e=>{const k=e.target.dataset.inp;if(k){S.inp[k]=e.target.value;save();if(k.startsWith("b_"))checkPriv()}});
+document.addEventListener("change",e=>{const r=e.target.dataset.rub;if(r!==undefined){S.rub[r]=e.target.checked;save()}});
+document.addEventListener("click",e=>{
+ const b=e.target.closest("button");if(!b)return;const d=b.dataset,y=window.scrollY;
+ if(b.id==="bES"||b.id==="bEN"){S.lang=b.id==="bES"?"es":"en";render();return}
+ if(b.id==="exDone"){S.done.ex=true;rerender(b);return}
+ if(d.case!==undefined){S.caseIx=+d.case;rerender(b);return}
+ if(d.rev){S.rev[d.rev]=Math.max(S.rev[d.rev]||0,+d.lv);rerender(b);return}
+ if(d.fs!==undefined){S.fs[d.fs]=d.v;rerender(b);return}
+ if(d.q!==undefined){if(S.quiz[d.q]===undefined){S.quiz[d.q]=+d.o;rerender(b)}return}
+ if(b.id==="bSave"){const full=DATA.labB.fields.every(([id])=>(S.inp["b_"+id]||"").trim())&&DATA.labB.rub.every((_,i)=>S.rub[i]);
+  if(checkPriv())return;
+  if(!full){$("bMsg").innerHTML=`<p class="warn">${t(DATA.labB.need)}</p>`;return}
+  S.done.lb=true;progress();$("bMsg").innerHTML=`<p class="okm">${t(DATA.labB.saved)}</p>`;return}
+ if(b.id==="bCopy"){const m=$("bMsg");try{navigator.clipboard.writeText(answerText()).then(()=>{m.innerHTML=`<p class="okm">${t(DATA.labB.copied)}</p>`},()=>{})}catch(err){}return}
+});
+
+const RESET_AT=[["lab-a","labA","lab"],["hechos","fs","ex"],["lab-b","labB","lab"],["quiz","quiz","quiz"]];
+const RESETS={labA:()=>clearKeys(/^a\d_/),fs:()=>{S.fs={}},labB:()=>{clearKeys(/^b_/);S.rub={};S.done.lb=false},quiz:()=>{S.quiz={}}};
+
+/* patch:v1 */
+const Lx=(es,en)=>({es,en});
+const L10N={reset:Lx("Reiniciar progreso","Reset progress"),sure:Lx("¿Seguro? Pulsa otra vez","Sure? Click again"),
+ lab:Lx("Reiniciar este laboratorio","Reset this lab"),ex:Lx("Reiniciar ejercicio","Reset exercise"),quiz:Lx("Repetir autoevaluación","Retake self-check"),
+ done:Lx("Listo: se borraron tus respuestas de esta sección.","Done: your answers for this section were cleared.")};
+const clearKeys=re=>{for(const o of [S.inp,S.rev])for(const k of Object.keys(o))if(re.test(k))delete o[k]};
+function anchorKey(b){if(b.id)return "#"+b.id;const d=b.dataset;return Object.keys(d).filter(k=>k!=="armed").map(k=>`[data-${k.replace(/[A-Z]/g,m=>"-"+m.toLowerCase())}="${d[k]}"]`).join("")||null}
+function rerender(b){const key=anchorKey(b),top=b.getBoundingClientRect().top;render();const nb=key&&document.querySelector(key);if(nb){window.scrollBy(0,nb.getBoundingClientRect().top-top);try{nb.focus({preventScroll:true})}catch(e){}}}
+function addResets(){
+ const m=document.querySelector(".meter");
+ if(m&&!document.getElementById("resetAll")){const b=document.createElement("button");b.id="resetAll";b.style.marginTop="12px";m.appendChild(b)}
+ const ra=document.getElementById("resetAll");if(ra&&!ra.dataset.armed)ra.textContent=t(L10N.reset);
+ for(const [sec,key,label] of RESET_AT){const w=document.querySelector(`#${sec} .wrap`);if(!w)continue;
+  const r=document.createElement("div");r.className="row";r.style.marginTop="16px";
+  r.innerHTML=`<button data-reset="${key}">${t(L10N[label])}</button>`;w.appendChild(r)}
+ document.querySelectorAll('a[href^="http"]').forEach(a=>{a.target="_blank";a.rel="noopener"});
+}
+function arm(b,run){if(b.dataset.armed){delete b.dataset.armed;run();return}
+ b.dataset.armed="1";b.textContent=t(L10N.sure);setTimeout(()=>{if(b.dataset.armed){delete b.dataset.armed;b.textContent=b.id==="resetAll"?t(L10N.reset):t(L10N[RESET_AT.find(x=>x[1]===b.dataset.reset)[2]])}},4000)}
+document.addEventListener("click",e=>{
+ const b=e.target.closest("button");if(!b)return;
+ if(b.id==="resetAll"){e.stopImmediatePropagation();arm(b,()=>{const lang=S.lang;S={lang,done:{},inp:{},rev:{},fs:{},quiz:{},rub:{},caseIx:0};save();render();window.scrollTo(0,0)});return}
+ if(b.dataset.reset){e.stopImmediatePropagation();const k=b.dataset.reset;arm(b,()=>{RESETS[k]();save();render();
+  const nb=document.querySelector(`[data-reset="${k}"]`);if(nb){nb.insertAdjacentHTML("afterend",`<span class="note" role="status">${t(L10N.done)}</span>`);nb.scrollIntoView({block:"center"})}});return}
+},true);
+render();
+}
+</script>
+</body>
+</html>
